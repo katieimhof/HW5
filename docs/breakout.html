@@ -147,8 +147,8 @@
                                     }
                                     // draw message on the canvas
                                     //alert("YOU WIN, CONGRATS!");
-                                    ctx.fillStyle = "black";
-                                    ctx.fillText("You Win! Congratulations!", 225, 225);
+                                    //ctx.fillStyle = "black";
+                                    //ctx.fillText("You Win! Congratulations!", 225, 225);
                                     //TODO: pause game instead of reloading
                                     //document.location.reload();
                                     //canvas.stop();
@@ -228,11 +228,12 @@
                         lives--;
                         if (lives <= 0) {
                             // draw message on the canvas
+                            checkWinState();
                             //alert("GAME OVER");
-                            ctx.fillStyle = "black";
-                            ctx.fillText("Sorry! Game over!", 225, 225);
+                            //ctx.fillStyle = "black";
+                            //ctx.fillText("Sorry! Game over!", 225, 225);
                             //TODO: pause game instead of reloading
-                            document.location.reload();
+                            //document.location.reload();
                         }
                         else {
                             x = canvas.width / 2;
@@ -331,7 +332,8 @@
             //function to clear the menu when we want to start the game
             function clearMenu() {
                 //remove event listener for menu, 
-                //we don't want to trigger the start game click event during a game                
+                //we don't want to trigger the start game click event during a game 
+                startBtn.style.display = 'none';         
             }
 
             //function to start the game
@@ -339,8 +341,7 @@
             //i.e., did the user click in the bounds of where the button is drawn
             //if so, we want to trigger the draw(); function to start our game
             function startGameClick(event) {
-                startBtn.style.display = 'none';
-                //draw();
+                clearMenu();
                 animFrameId = window.requestAnimationFrame(draw);
             };
 
@@ -361,7 +362,15 @@
             //if we win, we want to accumulate high score and draw a message to the canvas
             //if we lose, we want to draw a losing message to the canvas
             function checkWinState() {
-
+                if(lives <= 0) {
+                    ctx.fillStyle = "black";
+                    ctx.fillText("Sorry! Game over!", 225, 225); 
+                }
+                else {
+                    ctx.fillStyle = "black";
+                    ctx.fillText("You Win! Congratulations!", 225, 225);
+                }
+                resetBoard();
             };
 
             //function to clear the board state and start a new game (no high score accumulation)
@@ -409,6 +418,9 @@
             document.getElementById("reloadBtn").addEventListener("click", function() {
                 document.location.reload();  
             });
+
+            // SLIDER
+            document.getElementById("myRange").step = "0.05";
 
             //draw the menu. 
             //we don't want to immediately draw... only when we click start game            
